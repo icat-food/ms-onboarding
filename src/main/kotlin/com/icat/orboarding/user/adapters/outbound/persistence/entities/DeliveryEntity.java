@@ -3,8 +3,8 @@ package com.icat.orboarding.user.adapters.outbound.persistence.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "consumer")
-public class ConsumerEntity {
+@Table(name = "delivery")
+public class DeliveryEntity {
     @Id
     private String id;
     private String fullName;
