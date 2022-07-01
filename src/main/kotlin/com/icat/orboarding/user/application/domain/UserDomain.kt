@@ -1,4 +1,7 @@
 package com.icat.orboarding.user.application.domain
 
-class UserDomain {
-}
+data class UserDomain(
+    val id: String? = null,
+    val email: String,
+    val password: String? = null,
+)

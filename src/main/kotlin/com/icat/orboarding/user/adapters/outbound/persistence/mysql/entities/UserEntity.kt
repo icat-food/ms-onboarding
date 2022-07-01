@@ -11,7 +11,7 @@ import javax.persistence.*
 class UserEntity(
     @Id
     @Column(unique = true, nullable = false, length = 50)
-    val id: String? = UUID.randomUUID().toString(),
+    val id: String = UUID.randomUUID().toString(),
 
     @Column(unique = true, nullable = false, length = 100)
     val email: String,

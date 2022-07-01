@@ -7,7 +7,7 @@ import com.icat.orboarding.user.application.ports.outbound.UserPersistencePort
 import org.springframework.stereotype.Component
 
 @Component
-class MySqlUserPersistence(val userRepository: UserRepository) : UserPersistencePort {
+class MySqlUserPersistence(private val userRepository: UserRepository) : UserPersistencePort {
 
     override fun emailAlreadyRegistered(email: String): Boolean =
         userRepository.existsByEmailContainsIgnoreCase(email)
@@ -17,7 +17,7 @@ class MySqlUserPersistence(val userRepository: UserRepository) : UserPersistence
             UserEntity(
                 email = userDomain.email,
                 // TODO encrypt the password
-                password = userDomain.password
+                password = userDomain.password!!
             )
         ).toUserDomain()
     }
