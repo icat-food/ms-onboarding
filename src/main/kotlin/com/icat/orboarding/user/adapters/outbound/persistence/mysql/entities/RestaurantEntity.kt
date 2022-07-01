@@ -2,6 +2,7 @@ package com.icat.orboarding.user.adapters.outbound.persistence.mysql.entities
 
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -9,7 +10,7 @@ import javax.persistence.*
 class RestaurantEntity(
     @Id
     @Column(unique = true, nullable = false, length = 50)
-    val id: String,
+    val id: String = UUID.randomUUID().toString(),
 
     @Column(nullable = false, length = 100)
     val name: String,
