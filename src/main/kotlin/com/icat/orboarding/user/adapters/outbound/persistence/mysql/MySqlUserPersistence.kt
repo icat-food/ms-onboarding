@@ -5,6 +5,7 @@ import com.icat.orboarding.user.adapters.outbound.persistence.mysql.repositories
 import com.icat.orboarding.user.application.domain.UserDomain
 import com.icat.orboarding.user.application.ports.outbound.UserPersistencePort
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class MySqlUserPersistence(private val userRepository: UserRepository) : UserPersistencePort {
@@ -12,15 +13,19 @@ class MySqlUserPersistence(private val userRepository: UserRepository) : UserPer
     override fun emailAlreadyRegistered(email: String): Boolean =
         userRepository.existsByEmailContainsIgnoreCase(email)
 
-    override fun createUser(userDomain: UserDomain): UserDomain {
-        return userRepository.save(
+    override fun createUser(userDomain: UserDomain): UserDomain =
+        userRepository.save(
             UserEntity(
                 email = userDomain.email,
                 // TODO encrypt the password
                 password = userDomain.password!!
             )
         ).toUserDomain()
-    }
+
+    override fun getUser(email: String): Optional<UserDomain> =
+        userRepository.findByEmailIgnoreCase(email)
+            .map { it.toUserDomain() }
+            .or { Optional.empty() }
 
     private fun UserEntity.toUserDomain(): UserDomain =
         UserDomain(id, email, password)
