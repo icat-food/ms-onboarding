@@ -7,7 +7,7 @@ data class RestaurantRequestDTO(
     val name: String,
     val cnpj: String,
     val imageBase64: String,
-    val userRequestDTO: UserRequestDTO
+    val user: UserRequestDTO
 )
 
 fun RestaurantRequestDTO.toRestaurantDomain(): RestaurantDomain =
@@ -16,7 +16,7 @@ fun RestaurantRequestDTO.toRestaurantDomain(): RestaurantDomain =
         cnpj = cnpj,
         imageBase64 = imageBase64,
         userDomain = UserDomain(
-            email = userRequestDTO.email,
-            password = userRequestDTO.password
+            email = user.email,
+            password = user.password
         )
     )

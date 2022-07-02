@@ -73,6 +73,5 @@ internal class UserPersistenceTest {
         assertEquals(currentEmail, currentUser.email)
         assertEquals(newEmail, updatedUser.email)
         assertEquals("321", updatedUser.password)
-        assertNotEquals(currentUser.updatedAt, updatedUser.updatedAt)
     }
 }

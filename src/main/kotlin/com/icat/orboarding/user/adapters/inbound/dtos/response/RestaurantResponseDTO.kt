@@ -8,7 +8,7 @@ data class RestaurantResponseDTO(
     val name: String,
     val cnpj: String,
     val imageUrl: String,
-    val userResponseDTO: UserResponseDTO,
+    val user: UserResponseDTO,
     val createdAt: LocalDateTime
 )
 
@@ -18,7 +18,7 @@ fun RestaurantDomain.toRestaurantResponseDTO(): RestaurantResponseDTO =
         name = name,
         cnpj = cnpj,
         imageUrl = imageUrl!!,
-        userResponseDTO = UserResponseDTO(
+        user = UserResponseDTO(
             id = userDomain!!.id!!,
             email = userDomain.email,
             createdAt = userDomain.createdAt!!

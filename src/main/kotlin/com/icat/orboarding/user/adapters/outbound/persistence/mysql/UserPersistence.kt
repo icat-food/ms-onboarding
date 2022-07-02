@@ -30,7 +30,7 @@ class UserPersistence(private val userRepository: UserRepository) : UserPersiste
         userRepository.save(userDomainToUpdate.toUserEntity()).toUserDomain()
 
     private fun UserEntity.toUserDomain(): UserDomain =
-        UserDomain(id, email, password, createdAt, updatedAt)
+        UserDomain(id, email, password, createdAt)
 
     private fun UserDomain.toUserEntity() =
         UserEntity(id = id!!, email = email, password = password!!)

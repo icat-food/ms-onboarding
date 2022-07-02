@@ -5,6 +5,7 @@ import com.icat.orboarding.user.application.exceptions.CnpjAlreadyRegisteredExce
 import com.icat.orboarding.user.application.ports.inbound.RestaurantServicePort
 import com.icat.orboarding.user.application.ports.inbound.UserServicePort
 import com.icat.orboarding.user.application.ports.outbound.RestaurantPersistencePort
+import java.util.UUID
 
 class RestaurantService(
     private val restaurantPersistencePort: RestaurantPersistencePort,
@@ -19,6 +20,6 @@ class RestaurantService(
         val createdUser = userServicePort.createUser(restaurantDomain.userDomain!!)
 
 //      TODO criar a url da imagem
-        return restaurantPersistencePort.createRestaurant(restaurantDomain.copy(imageUrl = "http://image", userDomain = createdUser))
+        return restaurantPersistencePort.createRestaurant(restaurantDomain.copy(imageUrl = "http://aws/${UUID.randomUUID()}", userDomain = createdUser))
     }
 }

@@ -13,7 +13,7 @@ class UserService(private val userPersistencePort: UserPersistencePort) : UserSe
             throw EmailAlreadyRegisteredException("The email ${userDomain.email} already registered")
         }
 //      TODO criptografar a senha
-        return userPersistencePort.createUser(userDomain).removePassword()
+        return userPersistencePort.createUser(userDomain)
     }
 
     override fun getUser(email: String): UserDomain =
@@ -34,7 +34,4 @@ class UserService(private val userPersistencePort: UserPersistencePort) : UserSe
 
         return userPersistencePort.updateUser(userToUpdate)
     }
-
-    private fun UserDomain.removePassword(): UserDomain =
-        copy(password = null)
 }

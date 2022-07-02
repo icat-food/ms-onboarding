@@ -1,10 +1,12 @@
 package com.icat.orboarding.user.application.services
 
+import com.icat.orboarding.user.anyObject
 import com.icat.orboarding.user.application.domain.RestaurantDomain
 import com.icat.orboarding.user.application.domain.UserDomain
 import com.icat.orboarding.user.application.exceptions.CnpjAlreadyRegisteredException
 import com.icat.orboarding.user.application.ports.inbound.UserServicePort
 import com.icat.orboarding.user.application.ports.outbound.RestaurantPersistencePort
+import com.mysql.cj.util.TestUtils
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -54,7 +56,7 @@ internal class RestaurantServiceTest {
     }
 
     @Test
-    fun createRestaurant() {
+    fun `should create a new restaurant`() {
         val requestRestaurantDomain = restaurantDomainMock.copy(id = null)
         val expectedRestaurantDomain = restaurantDomainMock.copy(id = null)
         val requestUserDomain = userDomainMock.copy(id = null)
@@ -62,7 +64,7 @@ internal class RestaurantServiceTest {
 
         `when`(restaurantPersistencePort.cnpjAlreadyRegistered(anyString())).thenReturn(false)
         `when`(userServicePort.createUser(requestUserDomain)).thenReturn(expectedUserDomain)
-        `when`(restaurantService.createRestaurant(requestRestaurantDomain)).thenReturn(expectedRestaurantDomain)
+        `when`(restaurantPersistencePort.createRestaurant(anyObject(RestaurantDomain::class.java))).thenReturn(expectedRestaurantDomain)
 
         val actualRestaurantDomain = restaurantService.createRestaurant(requestRestaurantDomain)
 
