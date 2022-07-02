@@ -50,15 +50,28 @@ internal class UserPersistenceTest {
 
     @Test
     fun `should return a user in database by email`() {
-        val user = mySqlUserPersistence.getUser("kaike@gmail.com")
+        val user = userPersistence.getUser("kaike@gmail.com")
 
         assertTrue(user.isPresent)
     }
 
     @Test
     fun `should return a empty optional if email doesn't exists`() {
-        val user = mySqlUserPersistence.getUser("donnie@gmail.com")
+        val user = userPersistence.getUser("donnie@gmail.com")
 
         assertTrue(user.isEmpty)
+    }
+
+    @Test
+    fun `should update a user by current email`() {
+        val currentEmail = "kaike@gmail.com"
+        val newEmail = "kaike@gmail.com"
+        val currentUser = userPersistence.getUser(currentEmail).get()
+        val updatedUser = userPersistence.updateUser(currentEmail, UserDomain(email = newEmail, password = "321"))
+
+        assertEquals(currentUser.id, updatedUser.id)
+        assertEquals(currentEmail, currentUser.email)
+        assertEquals(newEmail, updatedUser.email)
+        assertEquals("321", updatedUser.password)
     }
 }
