@@ -14,10 +14,10 @@ class UserEntity(
     val id: String = UUID.randomUUID().toString(),
 
     @Column(unique = true, nullable = false, length = 100)
-    val email: String,
+    var email: String,
 
     @Column(nullable = false)
-    val password: String,
+    var password: String,
 
     @OneToOne(mappedBy = "userEntity")
     private val consumerEntity: ConsumerEntity? = null,
