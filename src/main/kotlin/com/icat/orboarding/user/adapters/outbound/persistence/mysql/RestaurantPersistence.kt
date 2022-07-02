@@ -19,7 +19,7 @@ class RestaurantPersistence(private val restaurantRepository: RestaurantReposito
             RestaurantEntity(
                 name = restaurantDomain.name,
                 cnpj = restaurantDomain.cnpj,
-                imageUrl = restaurantDomain.imageUrl,
+                imageUrl = restaurantDomain.imageUrl!!,
                 userEntity = UserEntity(
                     restaurantDomain.userDomain!!.id!!,
                     restaurantDomain.userDomain.email,

@@ -19,6 +19,6 @@ class RestaurantService(
         val createdUser = userServicePort.createUser(restaurantDomain.userDomain!!)
 
 //      TODO criar a url da imagem
-        return restaurantPersistencePort.createRestaurant(restaurantDomain.copy(userDomain = createdUser))
+        return restaurantPersistencePort.createRestaurant(restaurantDomain.copy(imageUrl = "http://image", userDomain = createdUser))
     }
 }

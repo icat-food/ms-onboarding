@@ -6,8 +6,9 @@ data class RestaurantDomain(
     val id: String? = null,
     val name: String,
     val cnpj: String,
-    val imageUrl: String,
-    val userDomain: UserDomain? = null,
+    val imageBase64: String? = null,
+    val imageUrl: String? = null,
+    val userDomain: UserDomain?,
     val createdAt: LocalDateTime? = null,
     val updatedAt: LocalDateTime? = null
 )
