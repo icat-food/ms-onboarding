@@ -4,5 +4,5 @@ import com.icat.orboarding.user.application.domain.RestaurantDomain
 
 interface RestaurantPersistencePort {
     fun cnpjAlreadyRegistered(cnpj: String): Boolean
-    fun createRestaurant(userDomain: RestaurantDomain): RestaurantDomain
+    fun createRestaurant(restaurantDomain: RestaurantDomain): RestaurantDomain
 }
