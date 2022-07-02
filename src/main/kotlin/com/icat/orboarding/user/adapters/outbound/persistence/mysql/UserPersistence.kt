@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class MySqlUserPersistence(private val userRepository: UserRepository) : UserPersistencePort {
+class UserPersistence(private val userRepository: UserRepository) : UserPersistencePort {
 
     override fun emailAlreadyRegistered(email: String): Boolean =
         userRepository.existsByEmailContainsIgnoreCase(email)
