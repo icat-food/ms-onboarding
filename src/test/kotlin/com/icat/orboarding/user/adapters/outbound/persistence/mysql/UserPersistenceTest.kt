@@ -16,13 +16,13 @@ import org.springframework.stereotype.Component
 
 @DataJpaTest(includeFilters = [ComponentScan.Filter(type = FilterType.ANNOTATION, classes = [(Component::class)])])
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-internal class MySqlUserPersistenceTest {
+internal class UserPersistenceTest {
 
     @Autowired
     private lateinit var userRepository: UserRepository
 
     @Autowired
-    private lateinit var mySqlUserPersistence: MySqlUserPersistence
+    private lateinit var userPersistence: UserPersistence
 
     @BeforeEach
     fun setUp() {
@@ -31,17 +31,17 @@ internal class MySqlUserPersistenceTest {
 
     @Test
     fun `should return true if the email already exists`() {
-        assertTrue(mySqlUserPersistence.emailAlreadyRegistered("kaike@gmail.com"))
+        assertTrue(userPersistence.emailAlreadyRegistered("kaike@gmail.com"))
     }
 
     @Test
     fun `should return false if the email already exists`() {
-        assertFalse(mySqlUserPersistence.emailAlreadyRegistered("van@gmail.com"))
+        assertFalse(userPersistence.emailAlreadyRegistered("van@gmail.com"))
     }
 
     @Test
     fun `should create a user in database`() {
-        mySqlUserPersistence.createUser(UserDomain(email = "donnie@gmail.com", password = "123"))
+        userPersistence.createUser(UserDomain(email = "donnie@gmail.com", password = "123"))
         val persistedUserEmail = userRepository.findAll()[1].email
 
         assertEquals(2, userRepository.count())

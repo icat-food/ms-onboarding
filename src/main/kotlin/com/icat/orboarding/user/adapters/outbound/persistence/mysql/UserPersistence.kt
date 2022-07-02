@@ -7,7 +7,7 @@ import com.icat.orboarding.user.application.ports.outbound.UserPersistencePort
 import org.springframework.stereotype.Component
 
 @Component
-class MySqlUserPersistence(private val userRepository: UserRepository) : UserPersistencePort {
+class UserPersistence(private val userRepository: UserRepository) : UserPersistencePort {
 
     override fun emailAlreadyRegistered(email: String): Boolean =
         userRepository.existsByEmailContainsIgnoreCase(email)
