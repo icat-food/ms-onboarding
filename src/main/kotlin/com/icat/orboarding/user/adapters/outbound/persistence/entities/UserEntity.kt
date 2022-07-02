@@ -31,5 +31,8 @@ class UserEntity(
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    val updatedAt: LocalDateTime? = null
+    val updatedAt: LocalDateTime? = null,
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    val roles: Set<Role?>? = null
 )
