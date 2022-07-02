@@ -27,15 +27,12 @@ class UserPersistence(private val userRepository: UserRepository) : UserPersiste
             .map { it.toUserDomain() }
             .or { Optional.empty() }
 
-    override fun updateUser(email: String, userDomain: UserDomain): UserDomain {
-        val user = userRepository.findByEmailIgnoreCase(email).get().also {
-            it.email = userDomain.email
-            it.password = userDomain.password!!
-        }
-
-        return userRepository.save(user).toUserDomain()
-    }
+    override fun updateUser(userDomainToUpdate: UserDomain): UserDomain =
+        userRepository.save(userDomainToUpdate.toUserEntity()).toUserDomain()
 
     private fun UserEntity.toUserDomain(): UserDomain =
         UserDomain(id, email, password, createdAt, updatedAt)
+
+    private fun UserDomain.toUserEntity() =
+        UserEntity(id = id!!, email = email, password = password!!)
 }

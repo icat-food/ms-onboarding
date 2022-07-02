@@ -7,5 +7,5 @@ interface UserPersistencePort {
     fun emailAlreadyRegistered(email: String): Boolean
     fun createUser(userDomain: UserDomain): UserDomain
     fun getUser(email: String): Optional<UserDomain>
-    fun updateUser(email: String, userDomain: UserDomain): UserDomain
+    fun updateUser(userDomainToUpdate: UserDomain): UserDomain
 }

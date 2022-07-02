@@ -21,6 +21,20 @@ class UserService(private val userPersistencePort: UserPersistencePort) : UserSe
             .map { it }
             .orElseThrow { throw UserNotFoundException("User with email $email not found") }
 
+    override fun updateUser(email: String, userDomainToUpdate: UserDomain): UserDomain {
+        if (userPersistencePort.emailAlreadyRegistered(userDomainToUpdate.email)) {
+            throw EmailAlreadyRegisteredException("The email ${userDomainToUpdate.email} already registered")
+        }
+
+        val currentUser = getUser(email)
+        val userToUpdate = currentUser.copy(
+            email = userDomainToUpdate.email,
+            password = userDomainToUpdate.password
+        )
+
+        return userPersistencePort.updateUser(userToUpdate)
+    }
+
     private fun UserDomain.removePassword(): UserDomain =
         copy(password = null)
 }
