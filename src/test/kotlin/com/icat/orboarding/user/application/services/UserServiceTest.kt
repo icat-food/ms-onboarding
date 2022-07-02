@@ -2,6 +2,7 @@ package com.icat.orboarding.user.application.services
 
 import com.icat.orboarding.user.application.domain.UserDomain
 import com.icat.orboarding.user.application.exceptions.EmailAlreadyRegisteredException
+import com.icat.orboarding.user.application.exceptions.UserNotFoundException
 import com.icat.orboarding.user.application.ports.outbound.UserPersistencePort
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
+import java.util.*
 
 internal class UserServiceTest {
 
@@ -50,6 +52,24 @@ internal class UserServiceTest {
 
         assertThrows(EmailAlreadyRegisteredException::class.java) {
             userService.createUser(requestUserDomain)
+        }
+    }
+
+    @Test
+    fun `should return a user by email`() {
+        `when`(userPersistencePort.getUser(anyString())).thenReturn(Optional.of(userDomainMock))
+
+        val actualUserDomain = userService.getUser("kaike@gmail.com")
+
+        assertEquals(userDomainMock, actualUserDomain)
+    }
+
+    @Test
+    fun `should throw UserNotFoundException if the user doesn't exists`() {
+        `when`(userPersistencePort.getUser(anyString())).thenReturn(Optional.empty())
+
+        assertThrows(UserNotFoundException::class.java) {
+            userService.getUser("kaike@gmail.com")
         }
     }
 }
