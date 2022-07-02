@@ -30,6 +30,7 @@ class RestaurantPersistence(private val restaurantRepository: RestaurantReposito
 
     private fun RestaurantEntity.toRestaurantDomain(): RestaurantDomain =
         RestaurantDomain(
+            id = id,
             name = name,
             cnpj = cnpj,
             imageUrl = imageUrl,

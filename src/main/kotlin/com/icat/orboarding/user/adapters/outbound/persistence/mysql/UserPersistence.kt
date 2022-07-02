@@ -17,7 +17,6 @@ class UserPersistence(private val userRepository: UserRepository) : UserPersiste
         userRepository.save(
             UserEntity(
                 email = userDomain.email,
-                // TODO encrypt the password
                 password = userDomain.password!!
             )
         ).toUserDomain()

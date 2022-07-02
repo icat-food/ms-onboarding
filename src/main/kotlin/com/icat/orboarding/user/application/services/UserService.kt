@@ -12,7 +12,7 @@ class UserService(private val userPersistencePort: UserPersistencePort) : UserSe
         if (userPersistencePort.emailAlreadyRegistered(userDomain.email)) {
             throw EmailAlreadyRegisteredException("The email ${userDomain.email} already registered")
         }
-
+//      TODO criptografar a senha
         return userPersistencePort.createUser(userDomain).removePassword()
     }
 

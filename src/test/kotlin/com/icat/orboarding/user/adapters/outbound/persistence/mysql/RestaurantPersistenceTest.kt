@@ -130,6 +130,7 @@ internal class RestaurantPersistenceTest {
                 userEntity.password
             )
         )
+
         assertThrows(DataIntegrityViolationException::class.java) {
             restaurantPersistence.createRestaurant(restaurantDomain)
             restaurantRepository.findByCnpj(cnpj).get()
