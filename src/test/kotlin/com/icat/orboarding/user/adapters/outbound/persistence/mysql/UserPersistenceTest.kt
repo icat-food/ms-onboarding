@@ -67,11 +67,12 @@ internal class UserPersistenceTest {
         val currentEmail = "kaike@gmail.com"
         val newEmail = "kaike@gmail.com"
         val currentUser = userPersistence.getUser(currentEmail).get()
-        val updatedUser = userPersistence.updateUser(currentEmail, UserDomain(email = newEmail, password = "321"))
+        val updatedUser = userPersistence.updateUser(UserDomain(id = currentUser.id, email = newEmail, password = "321"))
 
         assertEquals(currentUser.id, updatedUser.id)
         assertEquals(currentEmail, currentUser.email)
         assertEquals(newEmail, updatedUser.email)
         assertEquals("321", updatedUser.password)
+        assertNotEquals(currentUser.updatedAt, updatedUser.updatedAt)
     }
 }
