@@ -6,7 +6,6 @@ import com.icat.orboarding.user.application.exceptions.UserNotFoundException
 import com.icat.orboarding.user.application.ports.outbound.UserPersistencePort
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
