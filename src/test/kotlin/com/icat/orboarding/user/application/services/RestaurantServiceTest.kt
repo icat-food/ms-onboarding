@@ -6,7 +6,6 @@ import com.icat.orboarding.user.application.domain.UserDomain
 import com.icat.orboarding.user.application.exceptions.CnpjAlreadyRegisteredException
 import com.icat.orboarding.user.application.ports.inbound.UserServicePort
 import com.icat.orboarding.user.application.ports.outbound.RestaurantPersistencePort
-import com.mysql.cj.util.TestUtils
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
