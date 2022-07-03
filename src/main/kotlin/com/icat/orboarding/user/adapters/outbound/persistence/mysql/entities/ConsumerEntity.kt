@@ -1,4 +1,4 @@
-package com.icat.orboarding.user.adapters.outbound.persistence.entities
+package com.icat.orboarding.user.adapters.outbound.persistence.mysql.entities
 
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
