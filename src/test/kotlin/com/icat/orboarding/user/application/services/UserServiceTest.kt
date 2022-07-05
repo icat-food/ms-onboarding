@@ -11,6 +11,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
+import java.time.LocalDateTime
 import java.util.*
 
 internal class UserServiceTest {
@@ -27,7 +28,13 @@ internal class UserServiceTest {
     fun setUp() {
         MockitoAnnotations.openMocks(this)
 
-        userDomainMock = UserDomain(id = "8313b18b-95a6-4594-9d1c-84600de83025", email = "kaike@gmail.com", password = "123")
+        userDomainMock = UserDomain(
+            id = "8313b18b-95a6-4594-9d1c-84600de83025",
+            email = "kaike@gmail.com",
+            password = "123",
+            createdAt = LocalDateTime.parse("2022-07-02T01:52:30"),
+            updatedAt = LocalDateTime.parse("2022-07-03T01:52:30")
+        )
     }
 
     @Test
@@ -69,6 +76,38 @@ internal class UserServiceTest {
 
         assertThrows(UserNotFoundException::class.java) {
             userService.getUser("kaike@gmail.com")
+        }
+    }
+
+    @Test
+    fun `should update a user by current email`() {
+        val expectedUserDomain = userDomainMock.copy(email = "van@gmail.com", password = "321")
+
+        `when`(userPersistencePort.emailAlreadyRegistered(anyString())).thenReturn(false)
+        `when`(userPersistencePort.getUser(anyString())).thenReturn(Optional.of(userDomainMock))
+        `when`(userPersistencePort.updateUser(userDomainMock)).thenReturn(expectedUserDomain)
+
+        val actualUserDomain = userService.updateUser("kaike@gmail.com", userDomainMock)
+
+        assertEquals("van@gmail.com", actualUserDomain.email)
+        assertEquals("321", actualUserDomain.password)
+    }
+
+    @Test
+    fun `should throw EmailAlreadyRegisteredException when update user if the new email already registered`() {
+        `when`(userPersistencePort.emailAlreadyRegistered(anyString())).thenReturn(true)
+
+        assertThrows(EmailAlreadyRegisteredException::class.java) {
+            userService.updateUser("kaike@gmail.com", userDomainMock)
+        }
+    }
+
+    @Test
+    fun `should throw UserNotFoundException when update user and user not found by current email`() {
+        `when`(userPersistencePort.getUser(anyString())).thenReturn(Optional.empty())
+
+        assertThrows(UserNotFoundException::class.java) {
+            userService.updateUser("kaike@gmail.com", userDomainMock)
         }
     }
 }

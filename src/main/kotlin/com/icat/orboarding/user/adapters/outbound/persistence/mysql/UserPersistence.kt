@@ -7,7 +7,6 @@ import com.icat.orboarding.user.application.ports.outbound.UserPersistencePort
 import org.springframework.stereotype.Component
 import java.util.*
 
-
 @Component
 class UserPersistence(private val userRepository: UserRepository) : UserPersistencePort {
 
@@ -29,6 +28,12 @@ class UserPersistence(private val userRepository: UserRepository) : UserPersiste
             .map { it.toUserDomain() }
             .or { Optional.empty() }
 
+    override fun updateUser(userDomainToUpdate: UserDomain): UserDomain =
+        userRepository.save(userDomainToUpdate.toUserEntity()).toUserDomain()
+
     private fun UserEntity.toUserDomain(): UserDomain =
-        UserDomain(id, email, password)
+        UserDomain(id, email, password, createdAt, updatedAt)
+
+    private fun UserDomain.toUserEntity() =
+        UserEntity(id = id!!, email = email, password = password!!)
 }
