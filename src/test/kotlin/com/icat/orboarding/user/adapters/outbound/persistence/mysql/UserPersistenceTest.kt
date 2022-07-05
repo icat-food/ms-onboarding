@@ -41,11 +41,11 @@ internal class UserPersistenceTest {
 
     @Test
     fun `should create a user in database`() {
-        userPersistence.createUser(UserDomain(email = "donnie@gmail.com", password = "123"))
-        val persistedUserEmail = userRepository.findAll()[1].email
+        val email = "donnie@gmail.com"
+        userPersistence.createUser(UserDomain(email = email, password = "123"))
+        val persistedUserEmail = userRepository.findByEmailIgnoreCase(email).get()
 
-        assertEquals(2, userRepository.count())
-        assertEquals("donnie@gmail.com", persistedUserEmail)
+        assertEquals(email, persistedUserEmail.email)
     }
 
     @Test
@@ -73,6 +73,5 @@ internal class UserPersistenceTest {
         assertEquals(currentEmail, currentUser.email)
         assertEquals(newEmail, updatedUser.email)
         assertEquals("321", updatedUser.password)
-        assertNotEquals(currentUser.updatedAt, updatedUser.updatedAt)
     }
 }

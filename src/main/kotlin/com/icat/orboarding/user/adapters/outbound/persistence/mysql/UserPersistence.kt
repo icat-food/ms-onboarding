@@ -13,15 +13,13 @@ class UserPersistence(private val userRepository: UserRepository) : UserPersiste
     override fun emailAlreadyRegistered(email: String): Boolean =
         userRepository.existsByEmailContainsIgnoreCase(email)
 
-    override fun createUser(userDomain: UserDomain): UserDomain {
-        return userRepository.save(
+    override fun createUser(userDomain: UserDomain): UserDomain =
+        userRepository.save(
             UserEntity(
                 email = userDomain.email,
-                // TODO encrypt the password
                 password = userDomain.password!!
             )
         ).toUserDomain()
-    }
 
     override fun getUser(email: String): Optional<UserDomain> =
         userRepository.findByEmailIgnoreCase(email)
@@ -32,7 +30,7 @@ class UserPersistence(private val userRepository: UserRepository) : UserPersiste
         userRepository.save(userDomainToUpdate.toUserEntity()).toUserDomain()
 
     private fun UserEntity.toUserDomain(): UserDomain =
-        UserDomain(id, email, password, createdAt, updatedAt)
+        UserDomain(id, email, password, createdAt)
 
     private fun UserDomain.toUserEntity() =
         UserEntity(id = id!!, email = email, password = password!!)
