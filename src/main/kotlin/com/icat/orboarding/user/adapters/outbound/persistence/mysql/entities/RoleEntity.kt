@@ -1,11 +1,11 @@
-package com.icat.orboarding.user.adapters.outbound.persistence.entities
+package com.icat.orboarding.user.adapters.outbound.persistence.mysql.entities
 
 import org.springframework.security.core.GrantedAuthority
 import javax.persistence.*
 
 @Entity
 @Table(name = "role")
-class Role : GrantedAuthority {
+class RoleEntity : GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
