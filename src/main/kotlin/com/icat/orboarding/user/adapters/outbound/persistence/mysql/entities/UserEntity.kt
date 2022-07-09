@@ -10,6 +10,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "user")
+
 class UserEntity(
     @Id
     @Column(unique = true, nullable = false, length = 50)
@@ -39,6 +40,9 @@ class UserEntity(
     val updatedAt: LocalDateTime? = null,
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+        joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "roles_id", referencedColumnName = "id")])
     val roles: Set<RoleEntity>? = null
 ): UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority?>? {

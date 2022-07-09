@@ -1,5 +1,6 @@
 package com.icat.orboarding.user.application.services
 
+import com.icat.orboarding.user.adapters.outbound.persistence.mysql.entities.UserEntity
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
@@ -15,7 +16,7 @@ class TokenService {
     private val secret: String? = null
 
     fun generateToken(authentication: Authentication): String {
-        val user: User = authentication.principal as User
+        val user: UserEntity = authentication.principal as UserEntity
         val now = Date()
         val exp = Date(now.time + expiration!!.toLong())
 
