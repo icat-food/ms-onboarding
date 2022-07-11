@@ -33,7 +33,7 @@ class SecurityConfiguration(
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
             .anyRequest().authenticated()
             .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

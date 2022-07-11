@@ -6,18 +6,20 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "role")
-class RoleEntity : GrantedAuthority {
+class RoleEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private val id: Int? = null
+    private val id: Int? = null,
 
     @Column(nullable = false, unique = true)
-    private val name: String? = null
+    private val name: String? = null,
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
     @JsonIgnoreProperties("roles")
     val roles: Set<UserEntity>? = null
+
+) : GrantedAuthority {
 
     override fun getAuthority(): String? {
         return name

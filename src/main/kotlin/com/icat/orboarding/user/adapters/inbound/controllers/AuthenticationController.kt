@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.token.TokenService
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -16,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("api/v1")
 class AuthenticationController(
     @Autowired val authenticationManager: AuthenticationManager,
     @Autowired val tokenService: com.icat.orboarding.user.application.services.TokenService
     ) {
 
-    @PostMapping
+    @PostMapping("/auth")
     fun auth(@RequestBody @Validated loginDTO: LoginDTO): ResponseEntity<TokenDTO?>? {
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(loginDTO.email, loginDTO.password)

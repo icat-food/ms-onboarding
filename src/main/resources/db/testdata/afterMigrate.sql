@@ -31,9 +31,9 @@ VALUES('ezo2BHLZgoIkqYhx9OTvpMHOUgSJGOW6gLvrUE8mUhnD9vVlzn', 'Pastelaria do Bei√
 
 
 -- Criar roles
-INSERT INTO role (id, name) VALUES(1, 'FAZER_PEDIDO');
-INSERT INTO role (id, name) VALUES(2, 'GERENCIAR_CARDAPIO');
-INSERT INTO role (id, name) VALUES(3, 'VISUALIZAR_PEDIDOS');
+INSERT INTO role (id, name) VALUES(1, 'ROLE_FAZER_PEDIDO');
+INSERT INTO role (id, name) VALUES(2, 'ROLE_GERENCIAR_CARDAPIO');
+INSERT INTO role (id, name) VALUES(3, 'ROLE_VISUALIZAR_PEDIDOS');
 
 -- Associar users com roles
 -- consumer kaikeira
