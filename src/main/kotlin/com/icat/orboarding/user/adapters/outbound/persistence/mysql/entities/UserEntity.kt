@@ -2,6 +2,8 @@ package com.icat.orboarding.user.adapters.outbound.persistence.mysql.entities
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
+import java.time.LocalDateTime
+import java.util.UUID
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDateTime
@@ -10,7 +12,6 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "user")
-
 class UserEntity(
     @Id
     @Column(unique = true, nullable = false, length = 50)
@@ -37,7 +38,7 @@ class UserEntity(
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    val updatedAt: LocalDateTime? = null,
+    val updatedAt: LocalDateTime? = null
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",

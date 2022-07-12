@@ -12,8 +12,8 @@ class UserService(private val userPersistencePort: UserPersistencePort) : UserSe
         if (userPersistencePort.emailAlreadyRegistered(userDomain.email)) {
             throw EmailAlreadyRegisteredException("The email ${userDomain.email} already registered")
         }
-
-        return userPersistencePort.createUser(userDomain).removePassword()
+//      TODO criptografar a senha
+        return userPersistencePort.createUser(userDomain)
     }
 
     override fun getUser(email: String): UserDomain =
@@ -21,6 +21,17 @@ class UserService(private val userPersistencePort: UserPersistencePort) : UserSe
             .map { it }
             .orElseThrow { throw UserNotFoundException("User with email $email not found") }
 
-    private fun UserDomain.removePassword(): UserDomain =
-        copy(password = null)
+    override fun updateUser(email: String, userDomainToUpdate: UserDomain): UserDomain {
+        if (userPersistencePort.emailAlreadyRegistered(userDomainToUpdate.email)) {
+            throw EmailAlreadyRegisteredException("The email ${userDomainToUpdate.email} already registered")
+        }
+
+        val currentUser = getUser(email)
+        val userToUpdate = currentUser.copy(
+            email = userDomainToUpdate.email,
+            password = userDomainToUpdate.password
+        )
+
+        return userPersistencePort.updateUser(userToUpdate)
+    }
 }
