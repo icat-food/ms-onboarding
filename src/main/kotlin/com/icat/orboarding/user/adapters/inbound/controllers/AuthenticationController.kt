@@ -2,6 +2,7 @@ package com.icat.orboarding.user.adapters.inbound.controllers
 
 import com.icat.orboarding.user.adapters.inbound.dtos.request.LoginDTO
 import com.icat.orboarding.user.adapters.inbound.dtos.response.TokenDTO
+import com.icat.orboarding.user.application.ports.inbound.TokenServicePort
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("api/v1")
 class AuthenticationController(
     @Autowired val authenticationManager: AuthenticationManager,
-    @Autowired val tokenService: com.icat.orboarding.user.application.services.TokenService
+    @Autowired val tokenService: TokenServicePort
     ) {
 
     @PostMapping("/auth")

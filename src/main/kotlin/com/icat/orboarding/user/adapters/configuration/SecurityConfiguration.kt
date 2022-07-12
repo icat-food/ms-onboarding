@@ -1,6 +1,7 @@
 package com.icat.orboarding.user.adapters.configuration
 
-import com.icat.orboarding.user.application.services.AuthenticationService
+import com.icat.orboarding.user.adapters.inbound.security.roles.RolesEnum
+import com.icat.orboarding.user.application.ports.inbound.AuthenticationServicePort
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -19,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 class SecurityConfiguration(
-    @Autowired val authenticationService: AuthenticationService,
+    @Autowired val authenticationService: AuthenticationServicePort,
     @Autowired val tokenAuthFilterConfiguration: TokenAuthFilterConfiguration,
     ) : WebSecurityConfigurerAdapter() {
 
@@ -34,6 +35,7 @@ class SecurityConfiguration(
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/v1/restaurant").hasRole(RolesEnum.CREATE_RESTAURANT.name)
             .anyRequest().authenticated()
             .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

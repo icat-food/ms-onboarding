@@ -4,11 +4,8 @@ import com.icat.orboarding.user.adapters.outbound.persistence.mysql.RestaurantPe
 import com.icat.orboarding.user.adapters.outbound.persistence.mysql.UserPersistence
 import com.icat.orboarding.user.application.services.RestaurantService
 import com.icat.orboarding.user.application.services.UserService
-import com.icat.orboarding.user.adapters.outbound.persistence.mysql.UserPersistence
 import com.icat.orboarding.user.application.services.AuthenticationService
 import com.icat.orboarding.user.application.services.TokenService
-import com.icat.orboarding.user.application.services.UserService
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

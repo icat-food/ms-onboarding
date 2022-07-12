@@ -6,8 +6,6 @@ import java.time.LocalDateTime
 import java.util.UUID
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import java.time.LocalDateTime
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -38,7 +36,7 @@ class UserEntity(
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    val updatedAt: LocalDateTime? = null
+    val updatedAt: LocalDateTime? = null,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",

@@ -31,9 +31,10 @@ VALUES('ezo2BHLZgoIkqYhx9OTvpMHOUgSJGOW6gLvrUE8mUhnD9vVlzn', 'Pastelaria do Bei√
 
 
 -- Criar roles
-INSERT INTO role (id, name) VALUES(1, 'ROLE_FAZER_PEDIDO');
-INSERT INTO role (id, name) VALUES(2, 'ROLE_GERENCIAR_CARDAPIO');
-INSERT INTO role (id, name) VALUES(3, 'ROLE_VISUALIZAR_PEDIDOS');
+INSERT INTO role (id, name) VALUES(1, 'ROLE_MAKE_ORDER');
+INSERT INTO role (id, name) VALUES(2, 'ROLE_MANAGE_MENU');
+INSERT INTO role (id, name) VALUES(3, 'ROLE_VIEW_ORDERS');
+INSERT INTO role (id, name) VALUES(4, 'ROLE_CREATE_RESTAURANT');
 
 -- Associar users com roles
 -- consumer kaikeira
@@ -46,3 +47,4 @@ INSERT INTO user_roles (user_id, roles_id) VALUES('fgANh9Ffzqa3FOQzFUnNJeBujQTht
  -- restaurante bei√ßola
 INSERT INTO user_roles (user_id, roles_id) VALUES('Ye42zbo4JFVs0PIUCYC63t3wmr4uEbE0hJBXsT1XBXor1ZwS9P', 2);
 INSERT INTO user_roles (user_id, roles_id) VALUES('Ye42zbo4JFVs0PIUCYC63t3wmr4uEbE0hJBXsT1XBXor1ZwS9P', 3);
+INSERT INTO user_roles (user_id, roles_id) VALUES('Ye42zbo4JFVs0PIUCYC63t3wmr4uEbE0hJBXsT1XBXor1ZwS9P', 4);
