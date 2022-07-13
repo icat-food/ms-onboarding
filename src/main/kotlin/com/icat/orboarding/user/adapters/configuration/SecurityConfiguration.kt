@@ -35,7 +35,9 @@ class SecurityConfiguration(
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/v1/restaurant").hasRole(RolesEnum.CREATE_RESTAURANT.name)
+            .antMatchers(HttpMethod.POST, "/api/v1/restaurant/**").hasRole(RolesEnum.RESTAURANT.name)
+            .antMatchers(HttpMethod.POST, "/api/v1/consumer/**").hasRole(RolesEnum.CONSUMER.name)
+            .antMatchers(HttpMethod.POST, "/api/v1/delivery/**").hasRole(RolesEnum.DELIVERY.name)
             .anyRequest().authenticated()
             .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
