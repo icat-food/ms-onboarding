@@ -2,8 +2,8 @@ package com.icat.orboarding.user.adapters.inbound.controllers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.icat.orboarding.user.adapters.inbound.dtos.request.LoginDTO
-import com.icat.orboarding.user.application.ports.inbound.TokenServicePort
-import org.hamcrest.Matchers
+import com.icat.orboarding.user.adapters.inbound.dtos.request.RestaurantRequestDTO
+import com.icat.orboarding.user.adapters.inbound.dtos.request.UserRequestDTO
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.MockitoAnnotations
@@ -23,24 +23,14 @@ import org.springframework.web.context.WebApplicationContext
 @SpringBootTest
 @AutoConfigureMockMvc
 internal class AuthenticationControllerTest {
-
-
     private lateinit var mockMvc: MockMvc
-
-    @Autowired
-    private lateinit var tokenService: TokenServicePort
-
     private lateinit var loginDTO: LoginDTO
     private lateinit var objectMapper: ObjectMapper
-    private lateinit var mockedGeneratedToken: String
-
-    @Autowired
-    private lateinit var context: WebApplicationContext
-
+    private lateinit var restaurantRequestDTO: RestaurantRequestDTO
+    @Autowired private lateinit var context: WebApplicationContext
 
     @BeforeEach
     fun setUp() {
-
         mockMvc = MockMvcBuilders
             .webAppContextSetup(context)
             .apply<DefaultMockMvcBuilder>(springSecurity())
@@ -53,16 +43,48 @@ internal class AuthenticationControllerTest {
             email = "choraste_beicola@pasteis.com",
             password = "123"
         )
+
+        restaurantRequestDTO = RestaurantRequestDTO(
+            name = "Açougue de pizzas",
+            cnpj = "78945612345678"
+        , imageBase64 = "any",
+            user = UserRequestDTO(
+                email = "acougue.pizzas@yahoo.com.br",
+                password = "pizzas"
+            )
+        )
     }
 
     @Test
     @WithUserDetails("choraste_beicola@pasteis.com")
-    fun loginShouldBeSuccessful() {
+    fun loginWithAnyValidUSerShouldBeSuccessful() {
         mockMvc.post("/api/v1/auth") {
             content = objectMapper.writeValueAsString(loginDTO)
             contentType = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk() }
+        }
+    }
+
+    @Test
+    @WithUserDetails("kaikeira.store@xurastei.com")
+    fun accessRestaurantEndpointWithConsumerUserShouldReturn403Forbidden() {
+        mockMvc.post("/api/v1/restaurant") {
+            content = objectMapper.writeValueAsString(restaurantRequestDTO)
+            contentType = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isForbidden() }
+        }
+    }
+
+    @Test
+    @WithUserDetails("choraste_beicola@pasteis.com")
+    fun accessRestaurantEndpointWithRestaurantUserShouldReturn201Created() {
+        mockMvc.post("/api/v1/restaurant") {
+            content = objectMapper.writeValueAsString(restaurantRequestDTO)
+            contentType = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isCreated() }
         }
     }
 
