@@ -13,15 +13,16 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
+import org.springframework.test.annotation.Rollback
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 
-
 @SpringBootTest
 @AutoConfigureMockMvc
+@Rollback
 internal class AuthenticationControllerTest {
     private lateinit var mockMvc: MockMvc
     private lateinit var loginDTO: LoginDTO
@@ -38,7 +39,7 @@ internal class AuthenticationControllerTest {
 
         MockitoAnnotations.openMocks(this)
         objectMapper = ObjectMapper()
-
+        //TODO: Salvar no banco um Consumer e um Restaurant pra usar nos testes
         loginDTO = LoginDTO(
             email = "choraste_beicola@pasteis.com",
             password = "123"

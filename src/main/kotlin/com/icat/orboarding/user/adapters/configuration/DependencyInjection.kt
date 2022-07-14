@@ -24,5 +24,6 @@ class DependencyInjection {
     fun tokenService() = TokenService()
 
     @Bean
-    fun authenticationService(userPersistence: UserPersistence) = AuthenticationService(userPersistence)
+    fun authenticationService(userPersistence: UserPersistence, tokenService: TokenService) =
+        AuthenticationService(userPersistence, tokenService)
 }
