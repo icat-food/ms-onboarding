@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.icat.orboarding.user.adapters.inbound.dtos.request.LoginDTO
 import com.icat.orboarding.user.adapters.inbound.dtos.request.RestaurantRequestDTO
 import com.icat.orboarding.user.adapters.inbound.dtos.request.UserRequestDTO
+import com.icat.orboarding.user.shared.factory.RequestDTOFactory
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.MockitoAnnotations
@@ -13,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
-import org.springframework.test.annotation.Rollback
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
@@ -22,7 +22,6 @@ import org.springframework.web.context.WebApplicationContext
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Rollback
 internal class AuthenticationControllerTest {
     private lateinit var mockMvc: MockMvc
     private lateinit var loginDTO: LoginDTO
@@ -39,25 +38,17 @@ internal class AuthenticationControllerTest {
 
         MockitoAnnotations.openMocks(this)
         objectMapper = ObjectMapper()
-        //TODO: Salvar no banco um Consumer e um Restaurant pra usar nos testes
         loginDTO = LoginDTO(
             email = "choraste_beicola@pasteis.com",
             password = "123"
         )
 
-        restaurantRequestDTO = RestaurantRequestDTO(
-            name = "Açougue de pizzas",
-            cnpj = "78945612345678"
-        , imageBase64 = "any",
-            user = UserRequestDTO(
-                email = "acougue.pizzas@yahoo.com.br",
-                password = "pizzas"
-            )
-        )
+        val userRequestDTO = UserRequestDTO(email = "kaike@gmail.com", password = "123")
+        restaurantRequestDTO = RequestDTOFactory.anyRestaurantDTO(userRequestDTO)
     }
 
     @Test
-    @WithUserDetails("choraste_beicola@pasteis.com")
+    @WithUserDetails("eilson.risca_faca@xuragou.com")
     fun loginWithAnyValidUSerShouldBeSuccessful() {
         mockMvc.post("/api/v1/auth") {
             content = objectMapper.writeValueAsString(loginDTO)

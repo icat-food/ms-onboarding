@@ -1,6 +1,6 @@
 package com.icat.orboarding.user.adapters.configuration
 
-import com.icat.orboarding.user.adapters.inbound.security.roles.RolesEnum
+import com.icat.orboarding.user.application.domain.RolesEnum
 import com.icat.orboarding.user.application.ports.inbound.AuthenticationServicePort
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
