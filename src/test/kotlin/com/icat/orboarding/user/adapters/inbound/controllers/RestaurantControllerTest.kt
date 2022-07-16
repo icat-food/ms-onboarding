@@ -77,7 +77,7 @@ internal class RestaurantControllerTest {
 
         Mockito.`when`(userServicePort.createRestaurant(anyObject(RestaurantDomain::class.java))).thenReturn(restaurantDomainMock)
 
-        mockMvc.post("/v1/restaurant") {
+        mockMvc.post("api/v1/restaurant") {
             contentType = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)
         }.andExpect {
