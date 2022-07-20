@@ -4,6 +4,8 @@ import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 import java.util.UUID
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.*
 
 @Entity
@@ -14,10 +16,10 @@ class UserEntity(
     val id: String = UUID.randomUUID().toString(),
 
     @Column(unique = true, nullable = false, length = 100)
-    var email: String,
+    val email: String,
 
     @Column(nullable = false)
-    var password: String,
+    private val password: String,
 
     @OneToOne(mappedBy = "userEntity")
     private val consumerEntity: ConsumerEntity? = null,
@@ -34,5 +36,39 @@ class UserEntity(
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    val updatedAt: LocalDateTime? = null
-)
+    val updatedAt: LocalDateTime? = null,
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+        joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "roles_id", referencedColumnName = "id")])
+    val roles: Set<RoleEntity>? = null
+): UserDetails {
+    override fun getAuthorities(): Collection<GrantedAuthority?>? {
+        return roles
+    }
+
+    override fun getPassword(): String {
+        return password
+    }
+
+    override fun getUsername(): String {
+        return email
+    }
+
+    override fun isAccountNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isAccountNonLocked(): Boolean {
+        return true
+    }
+
+    override fun isCredentialsNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isEnabled(): Boolean {
+        return true
+    }
+}

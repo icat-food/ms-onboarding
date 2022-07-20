@@ -4,6 +4,8 @@ import com.icat.orboarding.user.adapters.outbound.persistence.mysql.RestaurantPe
 import com.icat.orboarding.user.adapters.outbound.persistence.mysql.UserPersistence
 import com.icat.orboarding.user.application.services.RestaurantService
 import com.icat.orboarding.user.application.services.UserService
+import com.icat.orboarding.user.application.services.AuthenticationService
+import com.icat.orboarding.user.application.services.TokenService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -17,4 +19,11 @@ class DependencyInjection {
     @Bean
     fun restaurantService(restaurantPersistence: RestaurantPersistence, userService: UserService) =
         RestaurantService(restaurantPersistence, userService)
+
+    @Bean
+    fun tokenService() = TokenService()
+
+    @Bean
+    fun authenticationService(userPersistence: UserPersistence, tokenService: TokenService) =
+        AuthenticationService(userPersistence, tokenService)
 }

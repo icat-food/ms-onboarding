@@ -1,0 +1,6 @@
+CREATE TABLE role (
+    id VARCHAR(50) NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE,
+
+    CONSTRAINT pk_role_id PRIMARY KEY (id)
+);

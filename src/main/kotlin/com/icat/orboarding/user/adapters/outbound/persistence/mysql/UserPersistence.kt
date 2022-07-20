@@ -34,4 +34,7 @@ class UserPersistence(private val userRepository: UserRepository) : UserPersiste
 
     private fun UserDomain.toUserEntity() =
         UserEntity(id = id!!, email = email, password = password!!)
+
+    override fun getUserByEmail(email: String): UserEntity =
+        userRepository.findByEmailIgnoreCase(email).get()
 }
