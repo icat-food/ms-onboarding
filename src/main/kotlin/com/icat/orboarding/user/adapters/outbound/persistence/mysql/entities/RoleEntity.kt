@@ -2,6 +2,7 @@ package com.icat.orboarding.user.adapters.outbound.persistence.mysql.entities
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.springframework.security.core.GrantedAuthority
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -9,8 +10,8 @@ import javax.persistence.*
 class RoleEntity(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private val id: Int? = null,
+    @Column(unique = true, nullable = false, length = 50)
+    val id: String? = UUID.randomUUID().toString(),
 
     @Column(nullable = false, unique = true)
     private val name: String? = null,

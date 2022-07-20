@@ -1,7 +1,7 @@
 package com.icat.orboarding.user.application.services
 
 import com.icat.orboarding.user.adapters.inbound.dtos.request.LoginDTO
-import com.icat.orboarding.user.adapters.inbound.dtos.response.TokenDTO
+import com.icat.orboarding.user.application.domain.TokenDomain
 import com.icat.orboarding.user.application.ports.inbound.AuthenticationServicePort
 import com.icat.orboarding.user.application.ports.outbound.UserPersistencePort
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,9 +20,9 @@ class AuthenticationService(
     @Autowired
     @Lazy
     private lateinit var authenticationManager: AuthenticationManager
-    override fun authenticate(loginDTO: LoginDTO): TokenDTO {
+    override fun authenticate(loginDTO: LoginDTO): TokenDomain {
         val authentication: Authentication = getAuthentication(loginDTO)
-        return TokenDTO(token = tokenService.generateToken(authentication))
+        return TokenDomain(token = tokenService.generateToken(authentication))
     }
 
     private fun getAuthentication(loginDTO: LoginDTO): Authentication {
@@ -35,6 +35,5 @@ class AuthenticationService(
     override fun loadUserByUsername(username: String): UserDetails {
         return repository.getUserByEmail(username)
     }
-
 
 }

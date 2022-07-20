@@ -39,7 +39,7 @@ class UserService(private val userPersistencePort: UserPersistencePort) : UserSe
     }
 
     private fun encryptPassword(userDomain: UserDomain) {
-        val encryptedPassword: String = passwordEncryptor.encode(userDomain.password)
+        val encryptedPassword = passwordEncryptor.encode(userDomain.password)
         userDomain.password = encryptedPassword
     }
 }
