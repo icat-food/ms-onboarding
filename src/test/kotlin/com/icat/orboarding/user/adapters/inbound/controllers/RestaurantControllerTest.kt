@@ -30,7 +30,7 @@ internal class RestaurantControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private lateinit var userServicePort: RestaurantServicePort
+    private lateinit var restaurantServicePort: RestaurantServicePort
 
     private lateinit var objectMapper: ObjectMapper
 
@@ -65,7 +65,7 @@ internal class RestaurantControllerTest {
 
     @Test
     fun createRestaurant() {
-        val request = RestaurantRequestDTO(
+        val restaurantRequestDTO = RestaurantRequestDTO(
             name = "Royal Canil Store",
             cnpj = "60694588000152",
             imageBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAsEAAAIWCAIAAAA56M...",
@@ -75,11 +75,11 @@ internal class RestaurantControllerTest {
             )
         )
 
-        Mockito.`when`(userServicePort.createRestaurant(anyObject(RestaurantDomain::class.java))).thenReturn(restaurantDomainMock)
+        Mockito.`when`(restaurantServicePort.createRestaurant(anyObject(RestaurantDomain::class.java))).thenReturn(restaurantDomainMock)
 
-        mockMvc.post("api/v1/restaurant") {
+        mockMvc.post("/api/v1/restaurant") {
             contentType = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = objectMapper.writeValueAsString(restaurantRequestDTO)
         }.andExpect {
             status { isCreated() }
             jsonPath("$.id", `is`("ca28f8bf-ae2e-403e-bcfd-ab7a97d071c6"))

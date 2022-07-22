@@ -18,7 +18,7 @@ class DeliveryController(private val deliveryServicePort: DeliveryServicePort) {
 
     @PostMapping
     fun createDelivery(@RequestBody deliveryRequestDTO: DeliveryRequestDTO): ResponseEntity<DeliveryResponseDTO> {
-        val createdDelivery = deliveryServicePort.createDeliveryPerson(deliveryRequestDTO.toDeliveryDomain())
+        val createdDelivery = deliveryServicePort.createDelivery(deliveryRequestDTO.toDeliveryDomain())
         return ResponseEntity.status(HttpStatus.CREATED).body(createdDelivery.toDeliveryResponseDTO())
     }
 }

@@ -13,7 +13,7 @@ class DeliveryService(
     private val userService: UserServicePort
 ): DeliveryServicePort {
 
-    override fun createDeliveryPerson(deliveryDomain: DeliveryDomain): DeliveryDomain {
+    override fun createDelivery(deliveryDomain: DeliveryDomain): DeliveryDomain {
         if (deliveryPersistence.isAlreadyRegistered(deliveryDomain.cpf)){
             throw CpfAlreadyRegisteredException("The CPF ${deliveryDomain.cpf} is already registered")
         }

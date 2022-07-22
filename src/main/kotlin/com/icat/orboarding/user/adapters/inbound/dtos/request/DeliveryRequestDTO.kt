@@ -12,7 +12,7 @@ data class DeliveryRequestDTO(
 
 fun DeliveryRequestDTO.toDeliveryDomain(): DeliveryDomain =
     DeliveryDomain(
-        fullName = name,
+        name = name,
         cpf = cpf,
         imageUrl = imageBase64,
         userDomain = UserDomain(

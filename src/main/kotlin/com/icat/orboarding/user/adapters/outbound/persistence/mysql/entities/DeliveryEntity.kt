@@ -40,7 +40,7 @@ class DeliveryEntity(
 fun DeliveryEntity.toDeliveryDomain(): DeliveryDomain =
     DeliveryDomain(
         id = id,
-        fullName = fullName,
+        name = fullName,
         cpf = cpf,
         imageUrl = imageUrl,
         userDomain = UserDomain(
@@ -55,7 +55,7 @@ fun DeliveryEntity.toDeliveryDomain(): DeliveryDomain =
 
 fun DeliveryDomain.toDeliveryEntity(): DeliveryEntity =
     DeliveryEntity(
-        fullName = fullName,
+        fullName = name,
         cpf = cpf,
         imageUrl = imageUrl!!,
         userEntity = UserEntity(

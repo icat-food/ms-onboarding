@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 
 data class DeliveryDomain (
     val id: String? = null,
-    val fullName: String,
+    val name: String,
     val cpf: String,
     val imageUrl: String?,
     val userDomain: UserDomain?,
@@ -18,7 +18,7 @@ data class DeliveryDomain (
 fun DeliveryDomain.toDeliveryResponseDTO(): DeliveryResponseDTO =
     DeliveryResponseDTO(
         id = id!!,
-        name = fullName,
+        name = name,
         cpf = cpf,
         imageUrl = imageUrl!!,
         user = UserResponseDTO(
