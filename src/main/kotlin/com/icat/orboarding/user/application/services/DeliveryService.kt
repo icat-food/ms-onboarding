@@ -3,6 +3,7 @@ package com.icat.orboarding.user.application.services
 import com.icat.orboarding.user.application.domain.DeliveryDomain
 import com.icat.orboarding.user.application.domain.UserDomain
 import com.icat.orboarding.user.application.exceptions.CpfAlreadyRegisteredException
+import com.icat.orboarding.user.application.exceptions.UserNotFoundException
 import com.icat.orboarding.user.application.ports.inbound.DeliveryServicePort
 import com.icat.orboarding.user.application.ports.inbound.UserServicePort
 import com.icat.orboarding.user.application.ports.outbound.DeliveryPersistencePort
@@ -22,5 +23,9 @@ class DeliveryService(
         // TODO implementar o envio e geração de URL da imagem
         val updatedDeliveryDomain = deliveryDomain.copy(imageUrl = UUID.randomUUID().toString(), userDomain = createdUser)
         return deliveryPersistence.createDelivery(updatedDeliveryDomain)
+    }
+
+    override fun getDelivery(deliveryId: String): DeliveryDomain {
+        return deliveryPersistence.getById(deliveryId).orElseThrow { throw UserNotFoundException("Delivery with id $deliveryId not found") }
     }
 }

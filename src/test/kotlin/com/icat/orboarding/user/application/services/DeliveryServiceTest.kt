@@ -73,4 +73,9 @@ class DeliveryServiceTest {
         }
     }
 
+    @Test
+    fun `when get delivery should return a delivery response dto`() {
+
+    }
+
 }
