@@ -10,6 +10,7 @@ import com.icat.orboarding.user.application.ports.inbound.DeliveryServicePort
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import java.time.LocalDateTime
 
@@ -90,5 +92,16 @@ class DeliveryControllerTest {
             jsonPath("$.user.id", Matchers.`is`("8313b18b-95a6-4594-9d1c-84600de83021"))
             jsonPath("$.user.email", Matchers.`is`("lucy.dona_redonda@auau.com.br"))
         }
+    }
+
+    @Test
+    fun `when get Delivery should return 200 ok`() {
+
+        Mockito.`when`(deliveryServicePort.getDelivery(anyString())).thenReturn(deliveryDomainMock)
+
+        mockMvc.get("/api/v1/delivery/123").andExpect {
+            status { isOk() }
+        }
+
     }
 }
