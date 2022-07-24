@@ -5,8 +5,10 @@ import com.icat.orboarding.user.application.exceptions.CnpjAlreadyRegisteredExce
 import com.icat.orboarding.user.application.exceptions.CpfAlreadyRegisteredException
 import com.icat.orboarding.user.application.exceptions.EmailAlreadyRegisteredException
 import com.icat.orboarding.user.application.exceptions.UserNotFoundException
+import org.apache.coyote.Response
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
@@ -30,7 +32,7 @@ class ApiExceptionHandler {
             type = "Email already registered",
             detail = ex.message!!
         )
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody)
     }
 
     @ExceptionHandler(CpfAlreadyRegisteredException::class)
@@ -40,7 +42,7 @@ class ApiExceptionHandler {
             type = "CPF already registered",
             detail = ex.message!!
         )
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody)
     }
 
     @ExceptionHandler(CnpjAlreadyRegisteredException::class)
@@ -50,7 +52,7 @@ class ApiExceptionHandler {
             type = "CPF already registered",
             detail = ex.message!!
         )
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody)
     }
 
     @ExceptionHandler(Exception::class)
@@ -60,6 +62,17 @@ class ApiExceptionHandler {
             type = "Internal application error",
             detail = ex.message!!
         )
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody)
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleMethodArgumentNotValidException(ex: MethodArgumentNotValidException): ResponseEntity<ErrorBodyResponseDTO> {
+        val errors: Map<String, String> = ex.bindingResult.fieldErrors.associateBy({it.field}, {it.defaultMessage!!})
+        val responseBody = ErrorBodyResponseDTO(
+            status = HttpStatus.BAD_REQUEST.value(),
+            type = "Request body has some field with invalid input",
+            detail = errors
+        )
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody)
     }
 }
