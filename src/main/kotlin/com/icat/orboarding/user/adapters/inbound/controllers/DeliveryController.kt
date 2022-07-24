@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("api/v1/delivery")
 class DeliveryController(private val deliveryServicePort: DeliveryServicePort) {
 
     @PostMapping
-    fun createDelivery(@RequestBody deliveryRequestDTO: DeliveryRequestDTO): ResponseEntity<DeliveryResponseDTO> {
+    fun createDelivery(@RequestBody @Valid deliveryRequestDTO: DeliveryRequestDTO): ResponseEntity<DeliveryResponseDTO> {
         val createdDelivery = deliveryServicePort.createDelivery(deliveryRequestDTO.toDeliveryDomain())
         return ResponseEntity.status(HttpStatus.CREATED).body(createdDelivery.toDeliveryResponseDTO())
     }

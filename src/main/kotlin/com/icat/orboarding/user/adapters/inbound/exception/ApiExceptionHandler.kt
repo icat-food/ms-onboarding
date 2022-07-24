@@ -6,14 +6,20 @@ import com.icat.orboarding.user.application.exceptions.CpfAlreadyRegisteredExcep
 import com.icat.orboarding.user.application.exceptions.EmailAlreadyRegisteredException
 import com.icat.orboarding.user.application.exceptions.UserNotFoundException
 import org.apache.coyote.Response
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.MessageSource
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import java.util.*
 
 @ControllerAdvice
 class ApiExceptionHandler {
+
+    @Autowired private lateinit var message: MessageSource
 
     @ExceptionHandler(UserNotFoundException::class)
     fun handleUerNotFoundException(ex: UserNotFoundException): ResponseEntity<ErrorBodyResponseDTO> {
@@ -67,7 +73,7 @@ class ApiExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleMethodArgumentNotValidException(ex: MethodArgumentNotValidException): ResponseEntity<ErrorBodyResponseDTO> {
-        val errors: Map<String, String> = ex.bindingResult.fieldErrors.associateBy({it.field}, {it.defaultMessage!!})
+        val errors: Map<String, String> = ex.bindingResult.fieldErrors.associateBy({it.field}, {message.getMessage(it, LocaleContextHolder.getLocale())})
         val responseBody = ErrorBodyResponseDTO(
             status = HttpStatus.BAD_REQUEST.value(),
             type = "Request body has some field with invalid input",
