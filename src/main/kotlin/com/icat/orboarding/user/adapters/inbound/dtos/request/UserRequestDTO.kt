@@ -8,6 +8,6 @@ data class UserRequestDTO(
     @field:NotBlank
     val email: String,
 
-    @field:Size(min = 5, max = 8)
+    @field:Size(min = 2, max = 8)
     val password: String
 )
