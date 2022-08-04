@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.post
 import java.time.LocalDateTime
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 class DeliveryControllerTest {
 
     @Autowired
@@ -69,7 +69,6 @@ class DeliveryControllerTest {
     }
 
     @Test
-    @WithUserDetails("eilson.risca_faca@xuragou.com")
     fun `create Delivery should return 201 created`() {
         val deliveryRequestDTO = DeliveryRequestDTO(
             name = "Agostinho Carrara",
@@ -100,7 +99,6 @@ class DeliveryControllerTest {
     }
 
     @Test
-    @WithUserDetails("eilson.risca_faca@xuragou.com")
     fun `when get Delivery should return 200 ok`() {
 
         Mockito.`when`(deliveryServicePort.getDelivery(anyString())).thenReturn(deliveryDomainMock)
