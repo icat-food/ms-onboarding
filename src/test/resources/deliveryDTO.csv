@@ -1,0 +1,5 @@
+Lucy, 95644762084, https://aws.s3/lucy, any@email.com.br, 1
+Lucy, 95644762084, https://aws.s3/lucy, "", 123456
+Lucy, 95644762084, "", any@email.com.br, 123456
+Lucy, "", https://aws.s3/lucy, any@email.com.br, 123456
+"", 95644762084, https://aws.s3/lucy, any@email.com.br, 123456

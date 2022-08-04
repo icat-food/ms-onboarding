@@ -1,6 +1,7 @@
 package com.icat.orboarding.user.adapters.inbound.controllers
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.icat.orboarding.user.adapters.inbound.dtos.request.RestaurantRequestDTO
 import com.icat.orboarding.user.adapters.inbound.dtos.request.UserRequestDTO
 import com.icat.orboarding.user.anyObject
 import com.icat.orboarding.user.application.domain.RestaurantDomain
@@ -8,10 +9,13 @@ import com.icat.orboarding.user.application.domain.UserDomain
 import com.icat.orboarding.user.application.ports.inbound.RestaurantServicePort
 import com.icat.orboarding.user.shared.factory.DomainFactory
 import com.icat.orboarding.user.shared.factory.RequestDTOFactory
+import org.hamcrest.Matchers
 import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvFileSource
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
@@ -65,6 +69,30 @@ internal class RestaurantControllerTest {
             jsonPath("$.imageUrl", `is`("http://s3.amazonaws.com/restaurants/880ff38e-fa34-11ec-b939-0242ac120002"))
             jsonPath("$.user.id", `is`("8313b18b-95a6-4594-9d1c-84600de83025"))
             jsonPath("$.user.email", `is`("vandeilson@gmail.com"))
+        }
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = ["/restaurantDTO.csv"])
+    fun `when create restaurant with invalid input should throw 400 Bad Request`(
+        name: String, cnpj: String, image: String, email: String, password: String
+    ) {
+        val restaurantDTO = RestaurantRequestDTO(
+            name = name,
+            cnpj = cnpj,
+            imageBase64 = image,
+            user = UserRequestDTO(
+                email = email,
+                password = password
+            )
+        )
+
+        mockMvc.post("/api/v1/restaurant") {
+            contentType = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(restaurantDTO)
+        }.andExpect {
+            status { isBadRequest()}
+            jsonPath("$.type", Matchers.`is`("Request body has some field with invalid input"))
         }
     }
 }

@@ -10,6 +10,9 @@ import com.icat.orboarding.user.application.ports.inbound.DeliveryServicePort
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvFileSource
+import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
@@ -25,7 +28,7 @@ import org.springframework.test.web.servlet.post
 import java.time.LocalDateTime
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 class DeliveryControllerTest {
 
     @Autowired
@@ -66,11 +69,10 @@ class DeliveryControllerTest {
     }
 
     @Test
-    @WithUserDetails("eilson.risca_faca@xuragou.com")
     fun `create Delivery should return 201 created`() {
         val deliveryRequestDTO = DeliveryRequestDTO(
             name = "Agostinho Carrara",
-            cpf = "94576812489",
+            cpf = "42442521008",
             imageBase64 = "http://s3.amazonaws.com/delivery/370c4fe2-9afc-4fb6-b0dc-cebadeb48111",
             user = UserRequestDTO(
                 email = "lucy.dona_redonda@auau.com.br",
@@ -97,7 +99,6 @@ class DeliveryControllerTest {
     }
 
     @Test
-    @WithUserDetails("eilson.risca_faca@xuragou.com")
     fun `when get Delivery should return 200 ok`() {
 
         Mockito.`when`(deliveryServicePort.getDelivery(anyString())).thenReturn(deliveryDomainMock)
@@ -105,6 +106,29 @@ class DeliveryControllerTest {
         mockMvc.get("/api/v1/delivery/123").andExpect {
             status { isOk() }
         }
+    }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = ["/deliveryDTO.csv"])
+    fun `when create delivery with invalid input should throw 400 Bad Request`(
+        name: String, cpf: String, image: String, email: String, password: String
+    ) {
+        val deliveryDTO = DeliveryRequestDTO(
+            name = name,
+            cpf = cpf,
+            imageBase64 = image,
+            user = UserRequestDTO(
+                email = email,
+                password = password
+            )
+        )
+
+        mockMvc.post("/api/v1/delivery") {
+            contentType = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(deliveryDTO)
+        }.andExpect {
+            status { isBadRequest()}
+            jsonPath("$.type", Matchers.`is`("Request body has some field with invalid input"))
+        }
     }
 }

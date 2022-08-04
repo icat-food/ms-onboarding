@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/v1/restaurant")
 class RestaurantController(private val restaurantServicePort: RestaurantServicePort) {
 
     @PostMapping
-    fun createRestaurant(@RequestBody restaurantRequestDTO: RestaurantRequestDTO): ResponseEntity<RestaurantResponseDTO> {
+    fun createRestaurant(@RequestBody @Valid restaurantRequestDTO: RestaurantRequestDTO): ResponseEntity<RestaurantResponseDTO> {
         val createdRestaurant = restaurantServicePort.createRestaurant(restaurantRequestDTO.toRestaurantDomain())
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRestaurant.toRestaurantResponseDTO())
