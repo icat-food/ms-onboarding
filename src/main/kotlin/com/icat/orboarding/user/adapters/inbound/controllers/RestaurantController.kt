@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("api/v1/restaurant")
+@RequestMapping("/api/v1/restaurant")
 class RestaurantController(private val restaurantServicePort: RestaurantServicePort) {
 
     @PostMapping
