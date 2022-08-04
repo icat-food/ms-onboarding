@@ -30,7 +30,7 @@ internal class RestaurantControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private lateinit var userServicePort: RestaurantServicePort
+    private lateinit var restaurantServicePort: RestaurantServicePort
 
     private lateinit var objectMapper: ObjectMapper
 
@@ -52,7 +52,7 @@ internal class RestaurantControllerTest {
         val userRequestDTO = UserRequestDTO(email = "vandeilson@gmail.com", password = "123")
         val restaurantRequestDTO = RequestDTOFactory.anyRestaurantDTO(userRequestDTO)
 
-        Mockito.`when`(userServicePort.createRestaurant(anyObject(RestaurantDomain::class.java))).thenReturn(restaurantDomainMock)
+        Mockito.`when`(restaurantServicePort.createRestaurant(anyObject(RestaurantDomain::class.java))).thenReturn(restaurantDomainMock)
 
         mockMvc.post("/api/v1/restaurant") {
             contentType = MediaType.APPLICATION_JSON

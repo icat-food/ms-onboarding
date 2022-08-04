@@ -14,7 +14,7 @@ class RestaurantService(
 
     override fun createRestaurant(restaurantDomain: RestaurantDomain): RestaurantDomain {
         if (restaurantPersistencePort.cnpjAlreadyRegistered(restaurantDomain.cnpj)) {
-            throw CnpjAlreadyRegisteredException("The cnpj ${restaurantDomain.cnpj} already registered")
+            throw CnpjAlreadyRegisteredException("The cnpj ${restaurantDomain.cnpj} is already registered")
         }
 
         val createdUser = userServicePort.createUser(restaurantDomain.userDomain!!)

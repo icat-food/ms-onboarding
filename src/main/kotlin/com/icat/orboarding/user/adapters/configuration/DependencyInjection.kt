@@ -1,7 +1,10 @@
 package com.icat.orboarding.user.adapters.configuration
 
+import com.icat.orboarding.user.adapters.outbound.persistence.mysql.DeliveryPersistence
 import com.icat.orboarding.user.adapters.outbound.persistence.mysql.RestaurantPersistence
 import com.icat.orboarding.user.adapters.outbound.persistence.mysql.UserPersistence
+import com.icat.orboarding.user.application.ports.outbound.DeliveryPersistencePort
+import com.icat.orboarding.user.application.services.DeliveryService
 import com.icat.orboarding.user.application.services.RestaurantService
 import com.icat.orboarding.user.application.services.UserService
 import com.icat.orboarding.user.application.services.AuthenticationService
@@ -26,4 +29,8 @@ class DependencyInjection {
     @Bean
     fun authenticationService(userPersistence: UserPersistence, tokenService: TokenService) =
         AuthenticationService(userPersistence, tokenService)
+
+    @Bean
+    fun deliveryService(deliveryPersistence: DeliveryPersistence, userService: UserService) =
+        DeliveryService(deliveryPersistence, userService)
 }

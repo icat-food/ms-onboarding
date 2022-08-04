@@ -13,7 +13,7 @@ class UserService(private val userPersistencePort: UserPersistencePort) : UserSe
 
     override fun createUser(userDomain: UserDomain): UserDomain {
         if (userPersistencePort.emailAlreadyRegistered(userDomain.email)) {
-            throw EmailAlreadyRegisteredException("The email ${userDomain.email} already registered")
+            throw EmailAlreadyRegisteredException("The email ${userDomain.email} is already registered")
         }
         encryptPassword(userDomain)
         return userPersistencePort.createUser(userDomain)
@@ -26,7 +26,7 @@ class UserService(private val userPersistencePort: UserPersistencePort) : UserSe
 
     override fun updateUser(email: String, userDomainToUpdate: UserDomain): UserDomain {
         if (userPersistencePort.emailAlreadyRegistered(userDomainToUpdate.email)) {
-            throw EmailAlreadyRegisteredException("The email ${userDomainToUpdate.email} already registered")
+            throw EmailAlreadyRegisteredException("The email ${userDomainToUpdate.email} is already registered")
         }
 
         val currentUser = getUser(email)
