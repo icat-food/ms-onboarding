@@ -97,6 +97,7 @@ class DeliveryControllerTest {
     }
 
     @Test
+    @WithUserDetails("eilson.risca_faca@xuragou.com")
     fun `when get Delivery should return 200 ok`() {
 
         Mockito.`when`(deliveryServicePort.getDelivery(anyString())).thenReturn(deliveryDomainMock)
