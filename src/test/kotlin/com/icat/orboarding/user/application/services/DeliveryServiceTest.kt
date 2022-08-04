@@ -4,6 +4,7 @@ import com.icat.orboarding.user.anyObject
 import com.icat.orboarding.user.application.domain.DeliveryDomain
 import com.icat.orboarding.user.application.domain.UserDomain
 import com.icat.orboarding.user.application.exceptions.CpfAlreadyRegisteredException
+import com.icat.orboarding.user.application.exceptions.UserNotFoundException
 import com.icat.orboarding.user.application.ports.inbound.UserServicePort
 import com.icat.orboarding.user.application.ports.outbound.DeliveryPersistencePort
 import org.junit.jupiter.api.Assertions
@@ -14,6 +15,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import java.time.LocalDateTime
+import java.util.*
 
 class DeliveryServiceTest {
 
@@ -71,6 +73,24 @@ class DeliveryServiceTest {
         Assertions.assertThrows(CpfAlreadyRegisteredException::class.java) {
             deliveryService.createDelivery(requestRestaurantDomain)
         }
+    }
+
+    @Test
+    fun `should throw an exception when get a delivery`() {
+        Mockito.`when`(deliveryPersistencePort.getById(Mockito.anyString())).thenReturn(Optional.empty())
+
+        Assertions.assertThrows(UserNotFoundException::class.java) {
+            deliveryService.getDelivery("123")
+        }
+    }
+
+    @Test
+    fun `should return a delivery when get a delivery`() {
+        Mockito.`when`(deliveryPersistencePort.getById(Mockito.anyString())).thenReturn(Optional.of(deliveryDomainMock))
+
+        val delivery = deliveryService.getDelivery("456")
+
+        Assertions.assertEquals(deliveryDomainMock, delivery)
     }
 
 }

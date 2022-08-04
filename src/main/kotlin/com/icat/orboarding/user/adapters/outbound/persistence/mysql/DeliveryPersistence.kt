@@ -6,6 +6,7 @@ import com.icat.orboarding.user.adapters.outbound.persistence.mysql.repositories
 import com.icat.orboarding.user.application.domain.DeliveryDomain
 import com.icat.orboarding.user.application.ports.outbound.DeliveryPersistencePort
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class DeliveryPersistence(private val deliveryRepository: DeliveryRepository): DeliveryPersistencePort {
@@ -14,4 +15,8 @@ class DeliveryPersistence(private val deliveryRepository: DeliveryRepository): D
 
     override fun createDelivery(deliveryDomain: DeliveryDomain) =
         deliveryRepository.save(deliveryDomain.toDeliveryEntity()).toDeliveryDomain()
-}
+
+    override fun getById(deliveryId: String): Optional<DeliveryDomain> =
+        deliveryRepository.findById(deliveryId)
+            .map { it.toDeliveryDomain() }
+            }
