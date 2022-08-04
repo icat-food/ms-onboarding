@@ -26,12 +26,12 @@ internal class UserPersistenceTest {
 
     @BeforeEach
     fun setUp() {
-        userRepository.save(UserEntity(email = "kaike@gmail.com", password = "123"))
+        userRepository.save(UserEntity(email = "kaike2@gmail.com", password = "123"))
     }
 
     @Test
     fun `should return true if the email already exists`() {
-        assertTrue(userPersistence.emailAlreadyRegistered("kaike@gmail.com"))
+        assertTrue(userPersistence.emailAlreadyRegistered("kaike2@gmail.com"))
     }
 
     @Test
@@ -50,7 +50,7 @@ internal class UserPersistenceTest {
 
     @Test
     fun `should return a user in database by email`() {
-        val user = userPersistence.getUser("kaike@gmail.com")
+        val user = userPersistence.getUser("kaike2@gmail.com")
 
         assertTrue(user.isPresent)
     }
@@ -64,8 +64,8 @@ internal class UserPersistenceTest {
 
     @Test
     fun `should update a user by current email`() {
-        val currentEmail = "kaike@gmail.com"
-        val newEmail = "kaike@gmail.com"
+        val currentEmail = "kaike2@gmail.com"
+        val newEmail = "kaike2@gmail.com"
         val currentUser = userPersistence.getUser(currentEmail).get()
         val updatedUser = userPersistence.updateUser(UserDomain(id = currentUser.id, email = newEmail, password = "321"))
 
