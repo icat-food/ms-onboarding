@@ -5,14 +5,17 @@ import com.icat.orboarding.user.application.exceptions.EmailAlreadyRegisteredExc
 import com.icat.orboarding.user.application.exceptions.UserNotFoundException
 import com.icat.orboarding.user.application.ports.inbound.UserServicePort
 import com.icat.orboarding.user.application.ports.outbound.UserPersistencePort
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 class UserService(private val userPersistencePort: UserPersistencePort) : UserServicePort {
+
+    private val passwordEncryptor = BCryptPasswordEncoder()
 
     override fun createUser(userDomain: UserDomain): UserDomain {
         if (userPersistencePort.emailAlreadyRegistered(userDomain.email)) {
             throw EmailAlreadyRegisteredException("The email ${userDomain.email} already registered")
         }
-//      TODO criptografar a senha
+        encryptPassword(userDomain)
         return userPersistencePort.createUser(userDomain)
     }
 
@@ -33,5 +36,10 @@ class UserService(private val userPersistencePort: UserPersistencePort) : UserSe
         )
 
         return userPersistencePort.updateUser(userToUpdate)
+    }
+
+    private fun encryptPassword(userDomain: UserDomain) {
+        val encryptedPassword = passwordEncryptor.encode(userDomain.password)
+        userDomain.password = encryptedPassword
     }
 }
